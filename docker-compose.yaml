@@ -87,3 +87,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  mcp-atlassian:
+    image: ghcr.io/sooperset/mcp-atlassian:latest
+    restart: unless-stopped
+    ports:
+      - "9005:9000" # Host port 9005 maps to container port 9000
+    env_file:
+      - ./atlassian-mcp/.env
+    command: ["--transport", "sse", "--port", "9000", "-vv"]

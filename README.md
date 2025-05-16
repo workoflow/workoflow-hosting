@@ -14,7 +14,8 @@ ALl cloud services are ISO 27001, ISO 27018, BSI C5 certified.
  - n8n (http://localhost:5678/)
  - qdrant (http://localhost:6333/dashboard)
  - minio (http://localhost:9001/)
- - postgres (jdbc)
+ - redis (http://localhost:6379/)
+ - postgres (jdbc 5432)
 
 # Services Cloud
  - MS Teams (https://admin.teams.microsoft.com/)
@@ -48,7 +49,10 @@ ProxyJump xxxx-xxxx-xxx-xxxx
  - patrick.xxxx@morris:~$ sudo -iu docker
  - cd /home/docker/docker-setups/n8n
 
+# Port Service tunneling
+ - ssh -L 5678:localhost:5678 -L 5432:localhost:5432 -L 6333:localhost:6333 -L 9000:localhost:9000 -L 9001:localhost:9001 -L 6379:localhost:6379 val-n8n
 
+# qdrant collection create and delete
 curl -X DELETE "http://localhost:6333/collections/workoflow_vector_n8n"
 
 curl -X PUT "http://localhost:6333/collections/workoflow_vector_n8n" \
