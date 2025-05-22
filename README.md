@@ -31,6 +31,13 @@ ALl cloud services are ISO 27001, ISO 27018, BSI C5 certified.
    - create teams app and copy App ID https://dev.teams.microsoft.com/apps
  - upload and register your "Workoflow Bot" to MS Teams https://admin.teams.microsoft.com/policies/manage-apps
 
+# Local Development Proxy Workoflow-Bot to Azusre
+ - npm run watch
+ - ngrok http --host-header=rewrite http://localhost:3978
+ - add ngrok url to your Azure bot message endpoint
+   - open https://portal.azure.com/#@nxs.rocks/resource/subscriptions/9e0780af-a98b-4867-9788-2262bfa387f8/resourceGroups/GenesisHorizonRG/providers/Microsoft.BotService/botServices/GenesisHorizon/config
+   - https://8c67-80-246-113-44.ngrok-free.app/api/messages
+
 # SSH access hosting
  - cat ~/.ssh/config
 
