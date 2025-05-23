@@ -6,7 +6,6 @@ volumes:
   redis_storage:
 
 x-n8n-shared: &n8n-shared
-  restart: always
   image: n8nio/n8n:latest
   env_file:
     - .env
@@ -35,7 +34,6 @@ services:
   qdrant:
     image: qdrant/qdrant:latest
     container_name: qdrant
-    restart: unless-stopped
     ports:
       - "6333:6333"
     volumes:
@@ -43,7 +41,6 @@ services:
 
   minio:
     image: minio/minio:latest
-    restart: always
     entrypoint: sh
     command: -c 'mkdir -p /data/workoflow-rag && minio server --address ":9000" --console-address ":9001" /data'
     env_file:
@@ -62,7 +59,6 @@ services:
 
   postgres:
     image: postgres:17.5-alpine
-    restart: unless-stopped
     env_file:
       - .env
     ports:
@@ -77,7 +73,6 @@ services:
 
   redis:
     image: redis:8.0.1
-    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -90,9 +85,15 @@ services:
 
   mcp-atlassian:
     image: ghcr.io/sooperset/mcp-atlassian:latest
-    restart: unless-stopped
     ports:
       - "9005:9000" # Host port 9005 maps to container port 9000
     env_file:
       - ./atlassian-mcp/.env
     command: ["--transport", "streamable-http", "--port", "9000", "-vv"]
+
+  workoflow-teams-bot:
+    image: patricks1987/workoflow-teams-bot:main
+    ports:
+      - "3978:3978"
+    env_file:
+      - ./.env

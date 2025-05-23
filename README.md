@@ -60,9 +60,9 @@ ProxyJump xxxx-xxxx-xxx-xxxx
  - ssh -L 5678:localhost:5678 -L 5432:localhost:5432 -L 6333:localhost:6333 -L 9000:localhost:9000 -L 9001:localhost:9001 -L 6379:localhost:6379 val-n8n
 
 # qdrant collection create and delete
-curl -X DELETE "http://localhost:6333/collections/workoflow_vector_n8n"
+curl -X DELETE "http://localhost:6333/collections/workoflow_employee_vector_n8n"
 
-curl -X PUT "http://localhost:6333/collections/workoflow_vector_n8n" \
+curl -X PUT "http://localhost:6333/collections/workoflow_employee_vector_n8n" \
 -H "Content-Type: application/json" \
 --data-raw '{
 "vectors": {
@@ -70,3 +70,8 @@ curl -X PUT "http://localhost:6333/collections/workoflow_vector_n8n" \
 "distance": "Cosine"
 }
 }'
+
+# Generate new n8n user
+ - $htpasswd -nbBC 12 "" your-password | tr -d ':\n'
+ - clone entry in table user, set generated pw
+ - clone entry in project_relation, set generated user.id, copy existing projectId
