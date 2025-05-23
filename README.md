@@ -75,3 +75,10 @@ curl -X PUT "http://localhost:6333/collections/workoflow_employee_vector_n8n" \
  - $htpasswd -nbBC 12 "" your-password | tr -d ':\n'
  - clone entry in table user, set generated pw
  - clone entry in project_relation, set generated user.id, copy existing projectId
+
+# crontab entries
+## automated updates
+ - 0 3 * * * cd /home/docker/docker-setups/n8n && docker-compose pull && docker-compose up -d --remove-orphans
+## backups
+ - 0 2 * * * docker exec -u root -it n8n-n8n-1 sh -c "n8n export:credentials --all --output=/home/backups/credentails.json"
+ - 0 2 * * * docker exec -u root -it n8n-n8n-1 sh -c "n8n export:workflow --all --output=/home/backups/workflows.json"
