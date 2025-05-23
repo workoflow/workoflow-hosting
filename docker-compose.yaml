@@ -1,9 +1,10 @@
 volumes:
   n8n-data:
+  n8n-backup:
   qdrant-data:
   postgres-data:
   minio-data:
-  redis_storage:
+  redis-data:
 
 x-n8n-shared: &n8n-shared
   image: n8nio/n8n:latest
@@ -11,6 +12,7 @@ x-n8n-shared: &n8n-shared
     - .env
   volumes:
     - n8n-data:/home/node/.n8n
+    - n8n-backup:/home/backups
   depends_on:
     redis:
       condition: service_healthy
@@ -76,7 +78,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis_storage:/data
+      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
