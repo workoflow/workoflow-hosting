@@ -1,9 +1,10 @@
-<img alt="workoflow bot - logo" src="assets/color.png" height="350px">
+<p align="center">
+  <img src="assets/logo_orig_large.png" alt="Workoflow Bot Logo" width="360px">
+</p>
 
 # Concept
-"Workoflow BOT" added to MS Teams for a scoped private conversions.
-AI driven communication will be processed by n8n on premise services.
-N8N has access to company internal tools, and AI agents are serving as a bridge between the two.
+Provide self-hosted infrastructure for AI driven communication.
+AI agents are serving as a bridge between the two.
 
 # Privacy
 General Data Protection Regulation (GDPR) (EU Datenschutzgrundverordnung EDGVO) law production ready setup.
