@@ -13,6 +13,8 @@ x-n8n-shared: &n8n-shared
   volumes:
     - n8n-data:/home/node/.n8n
     - n8n-backup:/home/backups
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
   depends_on:
     redis:
       condition: service_healthy
@@ -38,6 +40,7 @@ services:
     container_name: qdrant
     ports:
       - "6333:6333"
+      - "6334:6334"
     volumes:
       - qdrant-data:/qdrant/storage
 
