@@ -133,7 +133,7 @@ services:
     container_name: gotenberg
     ports:
       - "3002:80"
-    command: gotenberg --api-port=80
+    command: gotenberg --api-port=80 --api-request-size=5MB
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/health"]
