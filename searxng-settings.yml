@@ -1,0 +1,39 @@
+use_default_settings: true
+server:
+  bind_address: "0.0.0.0"
+  port: 8080
+  secret_key: "${SEARXNG_SECRET_KEY:-ultrasecretkey}"
+  limiter: false
+  public_instance: false
+redis:
+  url: redis://redis:6379/1
+search:
+  default_lang: "en"
+  formats:
+    - html
+    - json
+enabled_plugins:
+  - "Hash plugin"
+  - "Self Information"
+  - "Tracker URL remover"
+engines:
+  - name: google
+    enabled: true
+  - name: duckduckgo
+    enabled: true
+  - name: bing
+    enabled: true
+  - name: wikipedia
+    enabled: true
+  - name: github
+    enabled: true
+  - name: stackoverflow
+    enabled: true
+  - name: arxiv
+    enabled: true
+  - name: wolframalpha
+    enabled: false
+  - name: youtube
+    enabled: true
+  - name: reddit
+    enabled: true
