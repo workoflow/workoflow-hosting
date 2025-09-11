@@ -111,9 +111,6 @@ services:
     restart: unless-stopped
     env_file:
       - ./.env
-    environment:
-      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:4318
-      - TELEMETRY_ENABLED=true
     depends_on:
       - phoenix
 
