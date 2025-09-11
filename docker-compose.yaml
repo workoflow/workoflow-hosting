@@ -6,6 +6,7 @@ volumes:
   minio-data:
   redis-data:
   searxng-data:
+  phoenix-data:
 
 x-n8n-shared: &n8n-shared
   image: n8nio/n8n:latest
@@ -94,22 +95,27 @@ services:
       timeout: 5s
       retries: 10
 
-  mcp-atlassian:
-    image: ghcr.io/sooperset/mcp-atlassian:latest
-    ports:
-      - "9005:9000" # Host port 9005 maps to container port 9000
-    env_file:
-      - ./atlassian-mcp/.env
-    restart: unless-stopped
-    command: ["--transport", "sse", "--port", "9000", "-vv"]
-
-  workoflow-teams-bot:
-    image: patricks1987/workoflow-teams-bot:main
-    ports:
-      - "3978:3978"
-    restart: unless-stopped
-    env_file:
-      - ./.env
+#  mcp-atlassian:
+#    image: ghcr.io/sooperset/mcp-atlassian:latest
+#    ports:
+#      - "9005:9000" # Host port 9005 maps to container port 9000
+#    env_file:
+#      - ./atlassian-mcp/.env
+#    restart: unless-stopped
+#    command: ["--transport", "sse", "--port", "9000", "-vv"]
+#
+#  workoflow-teams-bot:
+#    image: patricks1987/workoflow-teams-bot:main
+#    ports:
+#      - "3978:3978"
+#    restart: unless-stopped
+#    env_file:
+#      - ./.env
+#    environment:
+#      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:4318
+#      - TELEMETRY_ENABLED=true
+#    depends_on:
+#      - phoenix
 
   searxng:
     image: searxng/searxng:latest
@@ -143,6 +149,30 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: phoenix
+    ports:
+      - "6006:6006"  # Web UI
+      - "4317:4317"  # OTLP gRPC
+      - "4318:4318"  # OTLP HTTP
+    environment:
+      - PHOENIX_WORKING_DIR=/data
+      - PHOENIX_PORT=6006
+      - PHOENIX_GRPC_PORT=4317
+      - COLLECTOR_OTLP_ENABLED=true
+      - COLLECTOR_OTLP_GRPC_ENABLED=true
+      - COLLECTOR_OTLP_HTTP_ENABLED=true
+    volumes:
+      - phoenix-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:6006/projects').read()"]
       interval: 10s
       timeout: 5s
       retries: 5
