@@ -95,27 +95,27 @@ services:
       timeout: 5s
       retries: 10
 
-#  mcp-atlassian:
-#    image: ghcr.io/sooperset/mcp-atlassian:latest
-#    ports:
-#      - "9005:9000" # Host port 9005 maps to container port 9000
-#    env_file:
-#      - ./atlassian-mcp/.env
-#    restart: unless-stopped
-#    command: ["--transport", "sse", "--port", "9000", "-vv"]
-#
-#  workoflow-teams-bot:
-#    image: patricks1987/workoflow-teams-bot:main
-#    ports:
-#      - "3978:3978"
-#    restart: unless-stopped
-#    env_file:
-#      - ./.env
-#    environment:
-#      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:4318
-#      - TELEMETRY_ENABLED=true
-#    depends_on:
-#      - phoenix
+  mcp-atlassian:
+    image: ghcr.io/sooperset/mcp-atlassian:latest
+    ports:
+      - "9005:9000" # Host port 9005 maps to container port 9000
+    env_file:
+      - ./atlassian-mcp/.env
+    restart: unless-stopped
+    command: ["--transport", "sse", "--port", "9000", "-vv"]
+
+  workoflow-teams-bot:
+    image: patricks1987/workoflow-teams-bot:main
+    ports:
+      - "3978:3978"
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:4318
+      - TELEMETRY_ENABLED=true
+    depends_on:
+      - phoenix
 
   searxng:
     image: searxng/searxng:latest
