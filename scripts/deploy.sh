@@ -59,20 +59,12 @@ log_info "Deploying to: ${ENV_NAME} (${HOST})"
 log_info "=========================================="
 echo ""
 
-# Check VPN connectivity by testing proxy jump host
-log_info "Checking VPN connectivity..."
-if ! ssh -o ConnectTimeout=5 -o BatchMode=yes val-srv-nc-heimdall "exit" 2>/dev/null; then
-    log_error "Cannot reach proxy jump host (val-srv-nc-heimdall)"
-    log_error "Please ensure you are connected to the VPN:"
-    echo "  sudo openvpn --config ~/nm-openvpn/patrick_schoenfeld@gateway.lfeld.nxs.rocks.ovpn"
-    exit 1
-fi
-log_success "VPN connection verified"
-
-# Check if we can reach the target host
-log_info "Checking connection to ${HOST}..."
+# Check VPN connectivity by testing target host
+log_info "Checking VPN and connection to ${HOST}..."
 if ! ssh -o ConnectTimeout=10 -o BatchMode=yes "$HOST" "exit" 2>/dev/null; then
     log_error "Cannot reach ${HOST}"
+    log_error "Please ensure you are connected to the VPN:"
+    echo "  sudo openvpn --config ~/nm-openvpn/patrick_schoenfeld@gateway.lfeld.nxs.rocks.ovpn"
     exit 1
 fi
 log_success "Successfully connected to ${HOST}"
